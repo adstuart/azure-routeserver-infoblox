@@ -6,8 +6,7 @@ Infoblox Anycast with Azure Route Server
 # Why would you want to do this?-
 
 - Anycast is used widely in the DNS Infrastructure that underpins the public Internet, as it offers optimised failover times and performance against that of regular DNS TTL failback mechanisms
-- Allows On-Premises locations to forward to a single IP address that represents "Azure", this is both simple, and allow-
-s the network, based on BGP AS-Path-length, to route the packet most optimally
+- Allows On-Premises locations to forward to a single IP address that represents "Azure", this is both simple, and allows the network, based on BGP AS-Path-length, to route the packet most optimally
 
 For wider context on the use of Azure Route Server with Anycast, please see the associated higher level whitepaper @ https://github.com/adstuart/azure-routeserver-anycast
 
