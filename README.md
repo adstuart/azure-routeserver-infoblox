@@ -97,8 +97,8 @@ az vm create -n $spoke1name-vm -g $rg --image UbuntuLTS --size Standard_B1s --ad
   - NB. Your Infoblox deployment needs its own empty RG, however it can use the VNets and resources your provisioned above for VNet, subnet etc
 - For this lab I used Infoblox NIOS 8.6.0 for DDI. Model TE-v1425.
 - Finish initial setup of Grid Manager via UI
-- Follow the same above guide to enable DNS (with recurision), NTP and setup an initial test dns forward lookup zone
-  - My test authortitative zone is called "testzone.com" with one A record ```test.testzone.com > 192.168.100.1```
+- Follow the same above guide to enable DNS (with recursion), NTP and setup an initial test dns forward lookup zone
+  - My test authoritative zone is called "testzone.com" with one A record ```test.testzone.com > 192.168.100.1```
 
 ### Deploy Azure Route Server and connect to Infoblox
 
@@ -178,7 +178,7 @@ adam@Azure:~$ az network routeserver peering list-learned-routes -n $nva1    --r
   "value": null
   ```
 
-Check your Spoke Test VM is recieving the Anycast address (1.1.1.1) from Azure Route Server.
+Check your Spoke Test VM is receiving the Anycast address (1.1.1.1) from Azure Route Server.
 
 ```
 adam@Azure:~$ az network nic show-effective-route-table --resource-group  $rg --name $spoke1name-vm-nic -o table
@@ -207,7 +207,7 @@ Name:   test.testzone.com
 Address: 192.168.100.1
 ```
 
-:checkered_flag: Single region Anycast-based custom DNS configuraiton complete
+:checkered_flag: Single region Anycast-based custom DNS configuration complete
 
 - Your Azure Virtual Machine is now sending it's requests for DNS resolution to 1.1.1.1 as per the VNet level custom DNS servers. 
 - In turn, due to Azure Route Server, the VM knows that packets destined to 1.1.1.1 should be send to your Infoblox NVA. 
@@ -389,4 +389,5 @@ Here we can see that our ER circuit is learning the 1.1.1.1/32 anycast route fro
 # A note on AS-path prepend-
 
 :warning: It does not appear that you are able to set as-path-prepend outbound from the Infoblox appliance, therefore you ability to control, deterministically, wich region serves the Anycast request will not be possible today.
+-
 
